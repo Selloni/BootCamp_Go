@@ -3,16 +3,25 @@ package main
 import (
 	"DBReader/DBReader"
 	"flag"
+	"fmt"
+	"log"
+	"strings"
 )
 
 func main() {
-	//var a DBReader.Interface = &DBReader.Jake{}
+	var j, x DBReader.Interface = &DBReader.Jake{}, &DBReader.Xake{}
 	path := flag.String("f", "", "path to file with json/xml extension")
 	flag.Parse() // after declaring flags we need to call it
-	jdata := DBReader.OpenFile(path)
-	DBReader.ReadFile(jdata)
-	//a.ReadFile(jdata)
-	//xdata := DBReader.OpenFile("../dock_for_parsing/original.xml")
-	//var j, x Interface = &Jake{}, &Xake{}
-	//DBReader.ReadFile(jdata)
+	if strings.HasSuffix(*path, ".xml") {
+		data := DBReader.OpenFile(path)
+		x.ReadFile(data)
+		fmt.Println(x)
+	} else if strings.HasSuffix(*path, ".json") {
+		data := DBReader.OpenFile(path)
+		j.ReadFile(data)
+		fmt.Println(j)
+	} else {
+		log.Fatal("не подходящий формат файла")
+	}
+
 }
