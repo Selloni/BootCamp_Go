@@ -3,6 +3,8 @@ package DBReader
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"os"
 )
 
 type Jake struct {
@@ -21,4 +23,22 @@ func (j *Jake) ReadFile(data []byte) {
 	if err := json.Unmarshal(data, &j); err != nil {
 		errors.New("not parsing")
 	}
+}
+
+func (j *Jake) Write() []byte {
+	data, err := json.Marshal(j)
+	if err != nil {
+		errors.New("no write xml")
+	}
+	return data
+}
+
+func (j *Jake) Create(data []byte) {
+	file, err := os.Create("dock_for_parsing/stolen_database.xml")
+	if err != nil {
+		fmt.Println("Unable to create file:", err)
+		os.Exit(1)
+	}
+	defer file.Close()
+	file.Write(data)
 }

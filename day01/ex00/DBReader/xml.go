@@ -3,6 +3,8 @@ package DBReader
 import (
 	"encoding/xml"
 	"errors"
+	"fmt"
+	"os"
 )
 
 type Xake struct {
@@ -15,6 +17,24 @@ type Xake struct {
 			IngredientUnit  string `json:"ingredient_unit,omitempty"xml:"ingredientUnit"`
 		} `json:"ingredients" xml:"ingredients"`
 	} `json:"cake"xml:"cake"`
+}
+
+func (x *Xake) Write() []byte {
+	data, err := xml.Marshal(x)
+	if err != nil {
+		errors.New("no write xml")
+	}
+	return data
+}
+
+func (x *Xake) Create(data []byte) {
+	file, err := os.Create("dock_for_parsing/stolen_database.json")
+	if err != nil {
+		fmt.Println("Unable to create file:", err)
+		os.Exit(1)
+	}
+	defer file.Close()
+	file.Write(data)
 }
 
 func (x *Xake) ReadFile(data []byte) {

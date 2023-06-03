@@ -16,12 +16,14 @@ func main() {
 		data := DBReader.OpenFile(path)
 		x.ReadFile(data)
 		fmt.Println(x)
+		x.Create(x.Write())
 	} else if strings.HasSuffix(*path, ".json") {
 		data := DBReader.OpenFile(path)
 		j.ReadFile(data)
 		fmt.Println(j)
+		j.Create(j.Write())
 	} else {
-		log.Fatal("не подходящий формат файла")
+		log.Fatal("no format file")
 	}
 
 }
