@@ -2,6 +2,7 @@ package DBReader
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"os"
@@ -26,7 +27,7 @@ func (j *Jake) ReadFile(data []byte) {
 }
 
 func (j *Jake) Write() []byte {
-	data, err := json.Marshal(j)
+	data, err := xml.MarshalIndent(j, "", "\t")
 	if err != nil {
 		errors.New("no write xml")
 	}

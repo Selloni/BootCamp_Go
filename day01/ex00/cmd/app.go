@@ -3,7 +3,6 @@ package main
 import (
 	"DBReader/DBReader"
 	"flag"
-	"fmt"
 	"log"
 	"strings"
 )
@@ -13,17 +12,12 @@ func main() {
 	path := flag.String("f", "", "path to file with json/xml extension")
 	flag.Parse() // after declaring flags we need to call it
 	if strings.HasSuffix(*path, ".xml") {
-		data := DBReader.OpenFile(path)
-		x.ReadFile(data)
-		fmt.Println(x)
+		x.ReadFile(DBReader.OpenFile(path))
 		x.Create(x.Write())
 	} else if strings.HasSuffix(*path, ".json") {
-		data := DBReader.OpenFile(path)
-		j.ReadFile(data)
-		fmt.Println(j)
+		j.ReadFile(DBReader.OpenFile(path))
 		j.Create(j.Write())
 	} else {
 		log.Fatal("no format file")
 	}
-
 }

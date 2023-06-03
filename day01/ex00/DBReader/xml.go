@@ -1,6 +1,7 @@
 package DBReader
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -8,19 +9,41 @@ import (
 )
 
 type Xake struct {
-	Cake []struct {
-		Name        string `json:"name" xml:"name"`
-		Time        string `json:"time" xml:"time"`
-		Ingredients []struct {
-			IngredientName  string `json:"ingredient_name" xml:"ingredientName"`
-			IngredientCount string `json:"ingredient_count" xml:"ingredientCount"`
-			IngredientUnit  string `json:"ingredient_unit,omitempty"xml:"ingredientUnit"`
-		} `json:"ingredients" xml:"ingredients"`
-	} `json:"cake"xml:"cake"`
+	XMLName xml.Name `xml:"recipes" json:"-"`
+	Cake    Cake     `xml:"cake"`
+}
+
+type Cake []struct {
+	XMLName     xml.Name    `xml:"cake" json:"-"`
+	Name        string      `xml:"name"`
+	Stovetime   string      `xml:"stovetime"`
+	Ingredients Ingredients `xml:"ingredients"`
+}
+
+type Ingredients struct {
+	Text xml.Name `xml:"ingredients" json:"-"`
+	Item []Item   `xml:"item"`
+}
+
+type Item struct {
+	XMLName   xml.Name `xml:"item" json:"-"`
+	Itemname  string   `xml:"itemname"`
+	Itemcount string   `xml:"itemcount"`
+	Itemunit  string   `xml:"itemunit"`
+}
+
+func (x *Xake) ReadFile(data []byte) {
+	fmt.Println(string(data))
+
+	if err := xml.Unmarshal(data, &x); err != nil {
+		errors.New("not parsing")
+	}
+	fmt.Println(x.Cake)
+	fmt.Println(x)
 }
 
 func (x *Xake) Write() []byte {
-	data, err := xml.Marshal(x)
+	data, err := json.MarshalIndent(x, "", "\t")
 	if err != nil {
 		errors.New("no write xml")
 	}
@@ -35,10 +58,4 @@ func (x *Xake) Create(data []byte) {
 	}
 	defer file.Close()
 	file.Write(data)
-}
-
-func (x *Xake) ReadFile(data []byte) {
-	if err := xml.Unmarshal(data, &x); err != nil {
-		errors.New("not parsing")
-	}
 }
