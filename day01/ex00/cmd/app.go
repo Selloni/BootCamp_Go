@@ -1,9 +1,9 @@
 package main
 
 import (
-	"DBReader/DBReader"
 	"flag"
 	"log"
+	"root/ex00/DBReader"
 	"strings"
 )
 
