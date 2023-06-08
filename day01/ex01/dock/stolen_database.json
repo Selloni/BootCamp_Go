@@ -1,0 +1,55 @@
+{
+	"cake": [
+		{
+			"name": "Red Velvet Strawberry Cake",
+			"stovetime": "40 min",
+			"ingredients": {
+				"item": [
+					{
+						"itemname": "Flour",
+						"itemcount": "3",
+						"itemunit": "cups"
+					},
+					{
+						"itemname": "Vanilla extract",
+						"itemcount": "1.5",
+						"itemunit": "tablespoons"
+					},
+					{
+						"itemname": "Strawberries",
+						"itemcount": "7",
+						"itemunit": ""
+					},
+					{
+						"itemname": "Cinnamon",
+						"itemcount": "1",
+						"itemunit": "pieces"
+					}
+				]
+			}
+		},
+		{
+			"name": "Blueberry Muffin Cake",
+			"stovetime": "30 min",
+			"ingredients": {
+				"item": [
+					{
+						"itemname": "Baking powder",
+						"itemcount": "3",
+						"itemunit": "teaspoons"
+					},
+					{
+						"itemname": "Brown sugar",
+						"itemcount": "0.5",
+						"itemunit": "cup"
+					},
+					{
+						"itemname": "Blueberries",
+						"itemcount": "1",
+						"itemunit": "cup"
+					}
+				]
+			}
+		}
+	]
+}

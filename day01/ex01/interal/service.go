@@ -24,18 +24,19 @@ func WriteJson(bd interface{}) error {
 	return nil
 }
 
-func Comparison(jo DBReader.Jake, js DBReader.Jake) {
-
+func Comparison(jo *DBReader.Jake, js *DBReader.Jake) {
+	println("sdfs")
 	for i := range jo.Cake {
 		for j := range js.Cake {
 			if jo.Cake[i].Name == js.Cake[j].Name {
-				//
+				println("eqal")
+				compIng(jo, js, i)
 			}
 		}
 	}
 }
 
-func compIng(origin DBReader.Jake, stolen DBReader.Jake, count int) {
+func compIng(origin *DBReader.Jake, stolen *DBReader.Jake, count int) {
 	find := false
 	for i := range origin.Cake[count].Ingredients {
 		for j := range stolen.Cake[count].Ingredients {

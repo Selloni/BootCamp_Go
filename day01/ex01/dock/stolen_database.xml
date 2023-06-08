@@ -1,0 +1,35 @@
+<Jake>
+	<cake>
+		<name>Red Velvet Strawberry Cake</name>
+		<time>45 min</time>
+		<ingredients>
+			<ingredientName>Flour</ingredientName>
+			<ingredientCount>2</ingredientCount>
+			<ingredientUnit>mugs</ingredientUnit>
+		</ingredients>
+		<ingredients>
+			<ingredientName>Strawberries</ingredientName>
+			<ingredientCount>7</ingredientCount>
+			<ingredientUnit></ingredientUnit>
+		</ingredients>
+		<ingredients>
+			<ingredientName>Vanilla extract</ingredientName>
+			<ingredientCount>2.5</ingredientCount>
+			<ingredientUnit>tablespoons</ingredientUnit>
+		</ingredients>
+	</cake>
+	<cake>
+		<name>Blueberry Muffin Cake</name>
+		<time>30 min</time>
+		<ingredients>
+			<ingredientName>Brown sugar</ingredientName>
+			<ingredientCount>1</ingredientCount>
+			<ingredientUnit>mug</ingredientUnit>
+		</ingredients>
+		<ingredients>
+			<ingredientName>Blueberries</ingredientName>
+			<ingredientCount>1</ingredientCount>
+			<ingredientUnit>mug</ingredientUnit>
+		</ingredients>
+	</cake>
+</Jake>
