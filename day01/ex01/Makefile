@@ -5,7 +5,7 @@ all: build
 
 build: clean
 	go build -o $(NAME) $(SOURS)
-	./compareDB --old dock/original_database.json --new dock/stolen_database.json
+	./compareDB --old dock/original_database.json --new dock/original_database.xml
 
 clean:
 	rm -rf $(NAME)

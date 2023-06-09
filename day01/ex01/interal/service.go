@@ -4,17 +4,44 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"os"
 	"root/ex00/DBReader"
 )
 
-func OpenFile(str *string) []byte {
-	data, err := os.ReadFile(*str)
-	if err != nil {
-		errors.New("not open")
-	}
-	return data
-}
+//
+//func OpenFile(str *string) []byte {
+//	data, err := os.ReadFile(*str)
+//	if err != nil {
+//		errors.New("not open")
+//	}
+//	return data
+//}
+//
+//
+//func  ParsingJ(data []byte) {
+//	fmt.Println(string(data))
+//	if err := json.Unmarshal(data, &j); err != nil {
+//		errors.New("not parsing")
+//	}
+//	fmt.Println(j)
+//}
+
+//func  Write() []byte {
+//	data, err := xml.Marshal(j)
+//	if err != nil {
+//		errors.New("no write xml")
+//	}
+//	return data
+//}
+
+//func  Create(data []byte) {
+//	file, err := os.Create("dock_for_parsing/stolen_database.xml")
+//	if err != nil {
+//		fmt.Println("Unable to create file:", err)
+//		os.Exit(1)
+//	}
+//	defer file.Close()
+//	file.Write(data)
+//}
 
 func WriteJson(bd interface{}) error {
 	_, err := json.Marshal(bd)
@@ -25,11 +52,9 @@ func WriteJson(bd interface{}) error {
 }
 
 func Comparison(jo *DBReader.Jake, js *DBReader.Jake) {
-	println("sdfs")
 	for i := range jo.Cake {
 		for j := range js.Cake {
 			if jo.Cake[i].Name == js.Cake[j].Name {
-				println("eqal")
 				compIng(jo, js, i)
 			}
 		}
