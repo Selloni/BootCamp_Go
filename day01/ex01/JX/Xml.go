@@ -1,4 +1,4 @@
-package DBReader
+package JX
 
 import (
 	"encoding/xml"

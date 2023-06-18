@@ -2,84 +2,74 @@ package interal
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"errors"
-	"fmt"
-	"root/ex00/DBReader"
+	"os"
+	"root/ex01/JX"
 )
 
-//
-//func OpenFile(str *string) []byte {
-//	data, err := os.ReadFile(*str)
-//	if err != nil {
-//		errors.New("not open")
-//	}
-//	return data
-//}
-//
-//
-//func  ParsingJ(data []byte) {
-//	fmt.Println(string(data))
-//	if err := json.Unmarshal(data, &j); err != nil {
-//		errors.New("not parsing")
-//	}
-//	fmt.Println(j)
-//}
+type recipes struct {
+	Cake []struct {
+		Name        string
+		Time        string
+		Ingredients []struct {
+			IngredientName  string
+			IngredientCount string
+			IngredientUnit  string
+		}
+	}
+}
 
-//func  Write() []byte {
-//	data, err := xml.Marshal(j)
-//	if err != nil {
-//		errors.New("no write xml")
-//	}
-//	return data
-//}
+func TakeJson(j JX.Jake) {
+	for i := 0; i < len(j.Cake); i++ {
 
-//func  Create(data []byte) {
-//	file, err := os.Create("dock_for_parsing/stolen_database.xml")
-//	if err != nil {
-//		fmt.Println("Unable to create file:", err)
-//		os.Exit(1)
-//	}
-//	defer file.Close()
-//	file.Write(data)
-//}
+	}
+}
 
-func WriteJson(bd interface{}) error {
-	_, err := json.Marshal(bd)
+var (
+	newCakeNames []string
+	oldCakeNames []string
+)
+
+func ReadFile(str *string) []byte {
+	data, err := os.ReadFile(*str)
 	if err != nil {
-		errors.New("the file is not written")
+		errors.New("not open file")
 	}
-	return nil
+	return data
 }
 
-func Comparison(jo *DBReader.Jake, js *DBReader.Jake) {
-	for i := range jo.Cake {
-		for j := range js.Cake {
-			if jo.Cake[i].Name == js.Cake[j].Name {
-				compIng(jo, js, i)
-			}
-		}
+func ParsingJson(data []byte, j JX.Jake) {
+	if err := json.Unmarshal(data, &j); err != nil {
+		errors.New("not parsing json")
 	}
 }
 
-func compIng(origin *DBReader.Jake, stolen *DBReader.Jake, count int) {
-	find := false
-	for i := range origin.Cake[count].Ingredients {
-		for j := range stolen.Cake[count].Ingredients {
-			org := origin.Cake[count].Ingredients[i]
-			stl := stolen.Cake[count].Ingredients[j]
-			if org.IngredientName == stl.IngredientName {
-				find = true
-			}
-			if find {
-				if org.IngredientCount != org.IngredientCount {
-					fmt.Printf("CHANGED unit count for ingredient %s for cake %s - %d instead of %d", org, origin.Cake[count], org.IngredientCount, stl.IngredientCount)
-				}
-			} else {
-				fmt.Printf("REMOVED ingredient \\%s\\ for cake \\%s\\", org, origin.Cake[count])
-			}
-		}
+func ParsingXml(data []byte, x JX.Xake) {
+	if err := xml.Unmarshal(data, &x); err != nil {
+		errors.New("not parsing xml")
 	}
 }
+
+//func compIng(origin *DBReader.Jake, stolen *DBReader.Jake, count int) {
+//	find := false
+//	for i := range origin.Cake[count].Ingredients {
+//		for j := range stolen.Cake[count].Ingredients {
+//			org := origin.Cake[count].Ingredients[i]
+//			stl := stolen.Cake[count].Ingredients[j]
+//			if org.IngredientName == stl.IngredientName {
+//				find = true
+//			}
+//			if find {
+//				if org.IngredientCount != org.IngredientCount {
+//					fmt.Printf("CHANGED unit count for ingredient %s for cake %s - %d instead of %d", org, origin.Cake[count], org.IngredientCount, stl.IngredientCount)
+//				}
+//			} else {
+//				fmt.Printf("REMOVED ingredient \\%s\\ for cake \\%s\\", org, origin.Cake[count])
+//			}
+//		}
+//	}
+//}
 
 //./compareDB --old original_database.xml --new stolen_database.json
 //ADDED cake \"Moonshine Muffin\"
