@@ -21,16 +21,15 @@ func Start() error {
 	jake := JX.Jake{}
 	xake := JX.Xake{}
 	var (
-		cakeJ = recipes{}
-		cakeX = recipes{}
+		old = recipes{}
+		new = recipes{}
 	)
 
 	ParsingJson(ReadFile(pthOrigin), &jake)
 	ParsingXml(ReadFile(pthStolen), &xake)
-	cakeJ.TakeJson(jake)
-	cakeX.TakeXml(xake)
-	fmt.Println("test")
-	fmt.Println(cakeJ)
-	fmt.Println(cakeX)
+	old.TakeJson(jake)
+	new.TakeXml(xake)
+	CakeAdd(old, new)
+	CakeRemove(old, new)
 	return nil
 }

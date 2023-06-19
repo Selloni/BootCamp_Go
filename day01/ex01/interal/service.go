@@ -27,29 +27,33 @@ type ingredients struct {
 
 func (r *recipes) TakeJson(j JX.Jake) {
 	for i := 0; i < len(j.Cake); i++ {
-		fmt.Println(i)
 		Cake := cake{j.Cake[i].Name,
 			j.Cake[i].Time,
 			nil}
 		for k := 0; k < len(j.Cake[i].Ingredients); k++ {
 			Ingredient := ingredients{j.Cake[i].Ingredients[k].IngredientName,
 				j.Cake[i].Ingredients[k].IngredientCount,
-				j.Cake[i].Ingredients[k].IngredientCount}
+				j.Cake[i].Ingredients[k].IngredientUnit}
+			Cake.Ingredients = append(Cake.Ingredients, Ingredient)
 		}
-
+		r.Cake = append(r.Cake, Cake)
 	}
 }
 
 func (r *recipes) TakeXml(x JX.Xake) {
 	for i := 0; i < len(x.Cake); i++ {
-		r.Cake[i].Name = x.Cake[i].Name
-		r.Cake[i].Time = x.Cake[i].Stovetime
-		r.Cake[i].Ingredients = nil
+		Cake := cake{x.Cake[i].Name,
+			x.Cake[i].Stovetime,
+			nil}
 		for k := 0; k < len(x.Cake[i].Ingredients.Item); k++ {
-			r.Cake[i].Ingredients[k].IngredientName = x.Cake[i].Ingredients.Item[k].Itemname
-			r.Cake[i].Ingredients[k].IngredientCount = x.Cake[i].Ingredients.Item[k].Itemcount
-			r.Cake[i].Ingredients[k].IngredientUnit = x.Cake[i].Ingredients.Item[k].Itemunit
+			Ingredient := ingredients{
+				x.Cake[i].Ingredients.Item[k].Itemname,
+				x.Cake[i].Ingredients.Item[k].Itemcount,
+				x.Cake[i].Ingredients.Item[k].Itemunit,
+			}
+			Cake.Ingredients = append(Cake.Ingredients, Ingredient)
 		}
+		r.Cake = append(r.Cake, Cake)
 	}
 }
 
@@ -78,25 +82,21 @@ func ParsingXml(data []byte, x *JX.Xake) {
 	}
 }
 
-//func compIng(origin *DBReader.Jake, stolen *DBReader.Jake, count int) {
-//	find := false
-//	for i := range origin.Cake[count].Ingredients {
-//		for j := range stolen.Cake[count].Ingredients {
-//			org := origin.Cake[count].Ingredients[i]
-//			stl := stolen.Cake[count].Ingredients[j]
-//			if org.IngredientName == stl.IngredientName {
-//				find = true
-//			}
-//			if find {
-//				if org.IngredientCount != org.IngredientCount {
-//					fmt.Printf("CHANGED unit count for ingredient %s for cake %s - %d instead of %d", org, origin.Cake[count], org.IngredientCount, stl.IngredientCount)
-//				}
-//			} else {
-//				fmt.Printf("REMOVED ingredient \\%s\\ for cake \\%s\\", org, origin.Cake[count])
-//			}
-//		}
-//	}
-//}
+func CakeAdd(old recipes, new recipes) {
+	for i := 0; i < len(new.Cake); i++ {
+		if new.Cake[i].Name != old.Cake[i].Name {
+			fmt.Printf("ADDED cake \\\"%s\\\"\n", new.Cake[i].Name)
+		}
+	}
+}
+
+func CakeRemove(old recipes, new recipes) {
+	for i := 0; i < len(old.Cake); i++ {
+		if old.Cake[i].Name != new.Cake[i].Name {
+			fmt.Printf("REMOVED cake \\\"%s\\\"\n", old.Cake[i].Name)
+		}
+	}
+}
 
 //./compareDB --old original_database.xml --new stolen_database.json
 //ADDED cake \"Moonshine Muffin\"
