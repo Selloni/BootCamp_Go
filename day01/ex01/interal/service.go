@@ -4,25 +4,52 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"errors"
+	"fmt"
 	"os"
 	"root/ex01/JX"
 )
 
 type recipes struct {
-	Cake []struct {
-		Name        string
-		Time        string
-		Ingredients []struct {
-			IngredientName  string
-			IngredientCount string
-			IngredientUnit  string
+	Cake []cake
+}
+
+type cake struct {
+	Name        string
+	Time        string
+	Ingredients []ingredients
+}
+
+type ingredients struct {
+	IngredientName  string
+	IngredientCount string
+	IngredientUnit  string
+}
+
+func (r *recipes) TakeJson(j JX.Jake) {
+	for i := 0; i < len(j.Cake); i++ {
+		fmt.Println(i)
+		Cake := cake{j.Cake[i].Name,
+			j.Cake[i].Time,
+			nil}
+		for k := 0; k < len(j.Cake[i].Ingredients); k++ {
+			Ingredient := ingredients{j.Cake[i].Ingredients[k].IngredientName,
+				j.Cake[i].Ingredients[k].IngredientCount,
+				j.Cake[i].Ingredients[k].IngredientCount}
 		}
+
 	}
 }
 
-func TakeJson(j JX.Jake) {
-	for i := 0; i < len(j.Cake); i++ {
-
+func (r *recipes) TakeXml(x JX.Xake) {
+	for i := 0; i < len(x.Cake); i++ {
+		r.Cake[i].Name = x.Cake[i].Name
+		r.Cake[i].Time = x.Cake[i].Stovetime
+		r.Cake[i].Ingredients = nil
+		for k := 0; k < len(x.Cake[i].Ingredients.Item); k++ {
+			r.Cake[i].Ingredients[k].IngredientName = x.Cake[i].Ingredients.Item[k].Itemname
+			r.Cake[i].Ingredients[k].IngredientCount = x.Cake[i].Ingredients.Item[k].Itemcount
+			r.Cake[i].Ingredients[k].IngredientUnit = x.Cake[i].Ingredients.Item[k].Itemunit
+		}
 	}
 }
 
@@ -39,13 +66,13 @@ func ReadFile(str *string) []byte {
 	return data
 }
 
-func ParsingJson(data []byte, j JX.Jake) {
+func ParsingJson(data []byte, j *JX.Jake) {
 	if err := json.Unmarshal(data, &j); err != nil {
 		errors.New("not parsing json")
 	}
 }
 
-func ParsingXml(data []byte, x JX.Xake) {
+func ParsingXml(data []byte, x *JX.Xake) {
 	if err := xml.Unmarshal(data, &x); err != nil {
 		errors.New("not parsing xml")
 	}
