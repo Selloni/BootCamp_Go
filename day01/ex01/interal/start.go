@@ -31,5 +31,6 @@ func Start() error {
 	new.TakeXml(xake)
 	CakeAdd(old, new)
 	CakeRemove(old, new)
+	ChangeTime(old, new)
 	return nil
 }

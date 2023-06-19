@@ -98,6 +98,26 @@ func CakeRemove(old recipes, new recipes) {
 	}
 }
 
+func ChangeTime(old recipes, new recipes) {
+	for i := 0; i < len(old.Cake); i++ {
+		for j := 0; j < len(new.Cake); j++ {
+			if old.Cake[i].Name == new.Cake[j].Name {
+				if old.Cake[i].Time != new.Cake[j].Time {
+					fmt.Printf("CHANGED cooking time for cake \\\"Red Velvet Strawberry Cake\\\""+
+						" - \\\"%s\\\" instead of \\\"%s\\\"\n",
+						old.Cake[i].Time, new.Cake[j].Time)
+				}
+				CheckIngredient(old.Cake[i].Ingredients, new.Cake[j].Ingredients)
+
+			}
+		}
+	}
+}
+
+func CheckIngredient(old []ingredients, new []ingredients) {
+
+}
+
 //./compareDB --old original_database.xml --new stolen_database.json
 //ADDED cake \"Moonshine Muffin\"
 //REMOVED cake \"Blueberry Muffin Cake\"
