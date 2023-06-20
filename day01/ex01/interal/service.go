@@ -132,9 +132,9 @@ func CheckIngredient(old []ingredients, new []ingredients, oldName string, newNa
 			fmt.Printf("REMOVED ingredient \\\"%s\\\" for cake  \\\"%s\\\"\n", old[i].IngredientName, oldName)
 		} else {
 			oldCoUnt, _ := oldV[old[i].IngredientName]
-			for oldVolume, oldUnit := range oldCoUnt {
+			for oldVolume, oldUnit := range oldCoUnt { //// просто хотел достать ключ и значение
 				for newVolume, newUnit := range newCoUnt {
-					if newUnit == "" {
+					if newUnit == "" && oldUnit != "" {
 						fmt.Printf("REMOVED unit \\\"%s\\\" for ingredient \\\"%s\\\" "+
 							"for cake  \\\"%s\\\"\n", oldUnit, old[i].IngredientName, oldName)
 					} else if oldUnit != newUnit {
@@ -154,6 +154,7 @@ func CheckIngredient(old []ingredients, new []ingredients, oldName string, newNa
 }
 
 //./compareDB --old original_database.xml --new stolen_database.json
+
 //ADDED cake \"Moonshine Muffin\"
 //REMOVED cake \"Blueberry Muffin Cake\"
 //CHANGED cooking time for cake \"Red Velvet Strawberry Cake\" - \"45 min\" instead of \"40 min\"
