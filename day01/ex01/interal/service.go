@@ -98,7 +98,7 @@ func CakeRemove(old recipes, new recipes) {
 	}
 }
 
-func ChangeTime(old recipes, new recipes) {
+func IngredientAndTime(old recipes, new recipes) {
 	for i := 0; i < len(old.Cake); i++ {
 		for j := 0; j < len(new.Cake); j++ {
 			if old.Cake[i].Name == new.Cake[j].Name {
@@ -107,14 +107,31 @@ func ChangeTime(old recipes, new recipes) {
 						" - \\\"%s\\\" instead of \\\"%s\\\"\n",
 						old.Cake[i].Time, new.Cake[j].Time)
 				}
-				CheckIngredient(old.Cake[i].Ingredients, new.Cake[j].Ingredients)
-
+				CheckIngredient(old.Cake[i].Ingredients, new.Cake[j].Ingredients, old.Cake[i].Name, new.Cake[j].Name)
 			}
 		}
 	}
 }
 
-func CheckIngredient(old []ingredients, new []ingredients) {
+func CheckIngredient(old []ingredients, new []ingredients, oldName string, newName string) {
+	oldV := make(map[string]map[string]string, len(old))
+	newV := make(map[string]map[string]string, len(new))
+	for i := 0; i < len(old); i++ {
+		oldV[old[i].IngredientName] = map[string]string{old[i].IngredientCount: old[i].IngredientUnit}
+	}
+	for i := 0; i < len(new); i++ {
+		newV[new[i].IngredientName] = map[string]string{new[i].IngredientCount: new[i].IngredientUnit}
+		_, removeCake := oldV[new[i].IngredientName]
+		if !removeCake {
+			fmt.Printf("ADDED ingredient \"%s\" for cake  \"%s\"\n", new[i].IngredientName, newName)
+		}
+	}
+	for i := 0; i < len(old); i++ {
+		_, addCake := newV[old[i].IngredientName]
+		if !addCake {
+			fmt.Printf("REMOVED ingredient \\\"%s\\\" for cake  \\\"%s\\\"\n", old[i].IngredientName, oldName)
+		}
+	}
 
 }
 
