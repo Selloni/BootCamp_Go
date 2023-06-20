@@ -121,19 +121,33 @@ func CheckIngredient(old []ingredients, new []ingredients, oldName string, newNa
 	}
 	for i := 0; i < len(new); i++ {
 		newV[new[i].IngredientName] = map[string]string{new[i].IngredientCount: new[i].IngredientUnit}
-		_, removeCake := oldV[new[i].IngredientName]
-		if !removeCake {
+		_, addCake := oldV[new[i].IngredientName]
+		if !addCake {
 			fmt.Printf("ADDED ingredient \"%s\" for cake  \"%s\"\n", new[i].IngredientName, newName)
 		}
 	}
 	for i := 0; i < len(old); i++ {
-		_, addCake := newV[old[i].IngredientName]
-		if !addCake {
+		mapCoUnt, haveCake := newV[old[i].IngredientName]
+		if !haveCake {
 			fmt.Printf("REMOVED ingredient \\\"%s\\\" for cake  \\\"%s\\\"\n", old[i].IngredientName, oldName)
+		} else {
+			//l, k := mapCoUnt
+
+			fmt.Println(mapCoUnt)
+			//checkUnit(oldV[old[i].IngredientName], newV[new[i].IngredientName])
+
 		}
 	}
-
 }
+
+func checkUnit(old map[string]string, new map[string]string) {
+
+	//fmt.Printf()
+}
+
+//CHANGED unit for ingredient \"Flour\" for cake  \"Red Velvet Strawberry Cake\" - \"mugs\" instead of \"cups\"
+//CHANGED unit count for ingredient \"Strawberries\" for cake  \"Red Velvet Strawberry Cake\" - \"8\" instead of \"7\"
+//REMOVED unit \"pieces\" for ingredient \"Cinnamon\" for cake  \"Red Velvet Strawberry Cake\"
 
 //./compareDB --old original_database.xml --new stolen_database.json
 //ADDED cake \"Moonshine Muffin\"
@@ -141,6 +155,3 @@ func CheckIngredient(old []ingredients, new []ingredients, oldName string, newNa
 //CHANGED cooking time for cake \"Red Velvet Strawberry Cake\" - \"45 min\" instead of \"40 min\"
 //ADDED ingredient \"Coffee beans\" for cake  \"Red Velvet Strawberry Cake\"
 //REMOVED ingredient \"Vanilla extract\" for cake  \"Red Velvet Strawberry Cake\"
-//CHANGED unit for ingredient \"Flour\" for cake  \"Red Velvet Strawberry Cake\" - \"mugs\" instead of \"cups\"
-//CHANGED unit count for ingredient \"Strawberries\" for cake  \"Red Velvet Strawberry Cake\" - \"8\" instead of \"7\"
-//REMOVED unit \"pieces\" for ingredient \"Cinnamon\" for cake  \"Red Velvet Strawberry Cake\"
