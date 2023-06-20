@@ -123,31 +123,35 @@ func CheckIngredient(old []ingredients, new []ingredients, oldName string, newNa
 		newV[new[i].IngredientName] = map[string]string{new[i].IngredientCount: new[i].IngredientUnit}
 		_, addCake := oldV[new[i].IngredientName]
 		if !addCake {
-			fmt.Printf("ADDED ingredient \"%s\" for cake  \"%s\"\n", new[i].IngredientName, newName)
+			fmt.Printf("ADDED ingredient \\\"%s\\\" for cake  \\\"%s\\\"\n", new[i].IngredientName, newName)
 		}
 	}
 	for i := 0; i < len(old); i++ {
-		mapCoUnt, haveCake := newV[old[i].IngredientName]
+		newCoUnt, haveCake := newV[old[i].IngredientName]
 		if !haveCake {
 			fmt.Printf("REMOVED ingredient \\\"%s\\\" for cake  \\\"%s\\\"\n", old[i].IngredientName, oldName)
 		} else {
-			//l, k := mapCoUnt
-
-			fmt.Println(mapCoUnt)
-			//checkUnit(oldV[old[i].IngredientName], newV[new[i].IngredientName])
-
+			oldCoUnt, _ := oldV[old[i].IngredientName]
+			for oldVolume, oldUnit := range oldCoUnt {
+				for newVolume, newUnit := range newCoUnt {
+					if newUnit == "" {
+						fmt.Printf("REMOVED unit \\\"%s\\\" for ingredient \\\"%s\\\" "+
+							"for cake  \\\"%s\\\"\n", oldUnit, old[i].IngredientName, oldName)
+					} else if oldUnit != newUnit {
+						fmt.Printf("CHANGED unit for ingredient \\\"%s\\\" for cake \\\"%s\\\" "+
+							"- \\\"%s\\\" instead of \\\"%s\\\"\n", old[i].IngredientName,
+							oldName, newUnit, oldUnit)
+					}
+					if oldVolume != newVolume {
+						fmt.Printf("CHANGED unit count for ingredient \\\"%s\\\" for cake"+
+							"  \\\"%s\\\" - \\\"%s\\\" instead of \\\"%s\\\"\n", old[i].IngredientName, oldName,
+							newVolume, oldVolume)
+					}
+				}
+			}
 		}
 	}
 }
-
-func checkUnit(old map[string]string, new map[string]string) {
-
-	//fmt.Printf()
-}
-
-//CHANGED unit for ingredient \"Flour\" for cake  \"Red Velvet Strawberry Cake\" - \"mugs\" instead of \"cups\"
-//CHANGED unit count for ingredient \"Strawberries\" for cake  \"Red Velvet Strawberry Cake\" - \"8\" instead of \"7\"
-//REMOVED unit \"pieces\" for ingredient \"Cinnamon\" for cake  \"Red Velvet Strawberry Cake\"
 
 //./compareDB --old original_database.xml --new stolen_database.json
 //ADDED cake \"Moonshine Muffin\"
@@ -155,3 +159,6 @@ func checkUnit(old map[string]string, new map[string]string) {
 //CHANGED cooking time for cake \"Red Velvet Strawberry Cake\" - \"45 min\" instead of \"40 min\"
 //ADDED ingredient \"Coffee beans\" for cake  \"Red Velvet Strawberry Cake\"
 //REMOVED ingredient \"Vanilla extract\" for cake  \"Red Velvet Strawberry Cake\"
+//CHANGED unit for ingredient \"Flour\" for cake  \"Red Velvet Strawberry Cake\" - \"mugs\" instead of \"cups\"
+//CHANGED unit count for ingredient \"Strawberries\" for cake  \"Red Velvet Strawberry Cake\" - \"8\" instead of \"7\"
+//REMOVED unit \"pieces\" for ingredient \"Cinnamon\" for cake  \"Red Velvet Strawberry Cake\"
