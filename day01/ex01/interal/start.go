@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
+// /// подключить асинхрон
 func Start() error {
-
 	pthOrigin := flag.String("old", "", "original recipe")
 	pthStolen := flag.String("new", "", "stolen recipe")
 	flag.Parse() // after declaring flags we need to call it
@@ -24,7 +24,6 @@ func Start() error {
 		old = recipes{}
 		new = recipes{}
 	)
-
 	ParsingJson(ReadFile(pthOrigin), &jake)
 	ParsingXml(ReadFile(pthStolen), &xake)
 	old.TakeJson(jake)

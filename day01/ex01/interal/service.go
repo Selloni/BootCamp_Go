@@ -57,11 +57,6 @@ func (r *recipes) TakeXml(x JX.Xake) {
 	}
 }
 
-var (
-	newCakeNames []string
-	oldCakeNames []string
-)
-
 func ReadFile(str *string) []byte {
 	data, err := os.ReadFile(*str)
 	if err != nil {
