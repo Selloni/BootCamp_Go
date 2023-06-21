@@ -1,29 +1,57 @@
 package interal
 
 import (
-	"errors"
+	"bufio"
 	"flag"
+	"fmt"
+	"log"
 	"os"
+	"sort"
 )
 
-type buff struct {
-}
-
 func Parsing() {
-	var old = flag.String("--old", "*.txt", "snapshot old database")
-	var new = flag.String("--new", "*.txt", "snapshot new database")
+	var old = flag.String("old", "*.txt", "snapshot old database")
+	var new = flag.String("new", "*.txt", "snapshot new database")
 	flag.Parse()
-	openFile(*old, *new)
-	//chekFiles(old, new)
+	CompareFile(openFile(*old), openFile(*new))
 }
 
-func openFile(old string, new string) {
-	oldFile, err := os.Open(old)
+func openFile(pathFile string) []string {
+	oldFile, err := os.Open(pathFile)
+	var buffer []string
 	if err != nil {
-		errors.New("not old open file")
+		log.Fatalf("not open %s file", pathFile)
+	}
+	defer oldFile.Close()
+	line := bufio.NewScanner(oldFile)
+	for line.Scan() {
+		buffer = append(buffer, line.Text())
+	}
+	return buffer
+}
+
+func CompareFile(old []string, new []string) {
+	sort.Strings(old)
+	sort.Strings(new)
+	for i := 0; i < len(old); i++ {
+		find := findElem(new, old[i])
+		if !find {
+			fmt.Printf("REMOVED %s\n", old[i])
+		}
+	}
+	for i := 0; i < len(new); i++ {
+		find := findElem(old, new[i])
+		if !find {
+			fmt.Printf("ADDED %s\n", new[i])
+		}
 	}
 }
 
-//func chekFiles(old string, new string) {
-//
-//}
+// SearchStrings -- побаловаться, псомотреть как устроен в нутри
+func findElem(buff []string, elem string) bool {
+	i := sort.SearchStrings(buff, elem)
+	if i < len(buff) && buff[i] == elem {
+		return true
+	}
+	return false
+}

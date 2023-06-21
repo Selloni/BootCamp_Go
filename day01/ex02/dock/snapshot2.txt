@@ -3,3 +3,4 @@
 /Users/baker/pokemon.avi
 /Users/baker/recipes/database.json
 /Users/baker/recipes/database_version3.
+/Users/baker/
