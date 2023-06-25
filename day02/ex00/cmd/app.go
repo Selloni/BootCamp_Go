@@ -31,15 +31,13 @@ func parsingFlag(boolflg *boolFlag) error {
 	boolflg.symlinks = flag.Bool("sl", false, "only symlinks")
 	boolflg.directories = flag.Bool("d", false, "only directories")
 	boolflg.file = flag.Bool("f", false, "only files")
-	boolflg.extension = flag.Bool("ext", false, "special file extension")
-	//boolflg.extStr = flag.String("ext", "", "special file extension")
+	boolflg.extStr = flag.String("ext", "", "special file extension")
 	flag.Parse()
-	//puck := false
-	//boolflg.extension = &puck
-	//println(*boolflg.extStr)
-	//if *boolflg.extStr == "" {
-	//	*boolflg.extension = true
-	//}
+	puck := false
+	boolflg.extension = &puck
+	if *boolflg.extStr != "" {
+		*boolflg.extension = true
+	}
 	if !*boolflg.file && *boolflg.extension {
 		return errors.New("you need using -f and -ext together")
 	}
@@ -60,8 +58,7 @@ func myFind(pathDir string, fl boolFlag) error {
 			}
 			fmt.Println(path, "->", originFile)
 		} else if os.ModePerm != 0 && *fl.file && *fl.extension && info.Mode().Type() != os.ModeSymlink && !info.IsDir() {
-			exp := flag.String("ext", "", "special file extension")
-			if strings.HasSuffix(path, "."+*exp) {
+			if strings.HasSuffix(path, "."+*fl.extStr) {
 				fmt.Println(path)
 			}
 		} else if os.ModePerm != 0 && !info.IsDir() && info.Mode().Type() != os.ModeSymlink && *fl.file {
