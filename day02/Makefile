@@ -1,7 +1,7 @@
 NAME=myFind
 SOURS=ex00/cmd/app.go
 VALUE = /Users/grandpat/golang_learn/day01
-FLAG = -d
+FLAG =
 all: build
 
 build: clean
