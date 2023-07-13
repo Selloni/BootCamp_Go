@@ -31,7 +31,7 @@ type Schema struct {
 	Properties Properties `json:"properties"`
 }
 
-type Properties []struct {
+type Properties struct {
 	Name     Name     `json:"name"`
 	Address  Address  `json:"address"`
 	Phone    Phone    `json:"phone"`
@@ -39,17 +39,16 @@ type Properties []struct {
 }
 
 type Name struct {
-	S string
+	D string `json:"type"`
 }
-
 type Address struct {
-	S string
+	D string `json:"type"`
 }
 type Phone struct {
-	S string
+	D string `json:"type"`
 }
 type Location struct {
-	S string
+	D string `json:"type"`
 }
 
 func main() {
@@ -70,6 +69,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer res.Body.Close()
+
 	var buf bytes.Buffer
 	b := Schema{Properties{
 		Name:     Name{"text"},
