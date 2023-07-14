@@ -1,10 +1,8 @@
 package main
 
 import (
-	// "fmt"
 	"bytes"
 	"context"
-	"encoding/csv"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -15,6 +13,7 @@ import (
 
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
+	"github.com/grailbio/base/tsv"
 )
 
 type Data struct {
@@ -24,7 +23,7 @@ type Data struct {
 	Phone   string `json:"phone"`
 	// Location elastic.GeoPoint `json:"location`
 	Longitude float64 `json:"longitude"`
-	Latitude  float64 `json:"katitude"`
+	Latitude  float64 `json:"latitude"`
 }
 
 type Schema struct {
@@ -114,17 +113,19 @@ func main() {
 }
 
 func ReadCSV(path string) [][]string {
-	data, err := os.Open(path)
+	file, err := os.Open(path)
 	if err != nil {
-		log.Fatal("didnt read fileCSV")
+		log.Fatal("could not open the file", err)
 	}
-	defer data.Close()
-	reader := csv.NewReader(data)
-	dataCSV, err := reader.ReadAll()
+	defer file.Close()
+	var d []byte
+	reader := tsv.NewReader(file)
+	reader.Read(d)
+	data, err := reader.ReadAll()
 	if err != nil {
-		log.Fatal("failed read all")
+		log.Fatal("could not read file ", err)
 	}
-	return dataCSV
+	return data
 }
 
 func setData(data []string) Data {
