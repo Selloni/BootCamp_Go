@@ -1,0 +1,7 @@
+host: localhost:3333
+info:
+  contact: {}
+  description: summary of the candy order
+  version: "1.0"
+paths: {}
+swagger: "2.0"

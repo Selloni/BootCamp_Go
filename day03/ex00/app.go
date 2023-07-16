@@ -58,6 +58,9 @@ func main() {
 	flag.Parse()
 
 	dataSet := ReadCSV(*pathToDataSets)
+	if *countOfData == 0 {
+		*countOfData = len(dataSet)
+	}
 
 	client, err := elasticsearch.NewDefaultClient()
 	if err != nil {
