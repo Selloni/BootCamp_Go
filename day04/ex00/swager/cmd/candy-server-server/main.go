@@ -41,8 +41,6 @@ func main() {
 	priceList := getPrise()
 	fillMap(priceList)
 
-	//server.ConfigureAPI()
-
 	api.BuyCandyHandler = operations.BuyCandyHandlerFunc(
 		func(params operations.BuyCandyParams) middleware.Responder {
 			candy := struct {
