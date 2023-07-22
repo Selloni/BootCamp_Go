@@ -1,5 +1,6 @@
 package main
 
+// не рабочая версия
 import (
 	"day04/ex00/swager/restapi"
 	"day04/ex00/swager/restapi/operations"
@@ -68,7 +69,7 @@ func main() {
 			}
 
 			return operations.NewBuyCandyCreated().WithPayload(
-				&operations.BuyCandyCreatedBody{Change: change, Thanks: caw_say.CowSay()})
+				&operations.BuyCandyCreatedBody{Change: change, Thanks: caw_say.Ask_cow()})
 		})
 
 	if err := server.Serve(); err != nil {

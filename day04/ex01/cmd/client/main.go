@@ -20,13 +20,13 @@ type Data struct {
 }
 
 func main() {
-	k := flag.String("nameCandy", "", "flag for name candy")
-	c := flag.Int("count", 0, "count of candy")
-	m := flag.Int("price", 0, "price of candy")
+	k := flag.String("k", "", "flag for name candy")
+	c := flag.Int("c", 0, "count of candy")
+	m := flag.Int("m", 0, "price of candy")
 	flag.Parse()
 
-	if isFlagPassed("k") || isFlagPassed("c") || isFlagPassed("m") {
-		log.Fatal("Wrong argument")
+	if !isFlagPassed("k") || !isFlagPassed("c") || !isFlagPassed("m") {
+		log.Fatalln("Wrong arguments")
 	}
 
 	var dataFlag Data = Data{*k, *c, *m}
@@ -38,11 +38,11 @@ func main() {
 	}
 
 	client := getClient()
-	res, err := client.Post("localhost:3333/buy_cady", "application/json", &buff)
-	defer res.Body.Close()
+	res, err := client.Post("https://localhost:3333/buy_candy", "application/json", &buff)
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer res.Body.Close()
 	_, err = io.Copy(os.Stdout, res.Body)
 	if err != nil {
 		log.Fatal(err)
@@ -50,7 +50,7 @@ func main() {
 }
 
 func getClient() *http.Client {
-	data, err := os.ReadFile("../CA/minica.pem")
+	data, err := os.ReadFile("../../CA/minica.pem")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -64,7 +64,7 @@ func getClient() *http.Client {
 		InsecureSkipVerify:    true,
 		ClientAuth:            tls.RequireAnyClientCert,
 		RootCAs:               cp,
-		GetCertificate:        utils.CertReqFunc("../CA/srver/cert.pem", "../CA/sserver/key.pem"),
+		GetCertificate:        utils.CertReqFunc("../../CA/server/cert.pem", "../../CA/server/key.pem"),
 		VerifyPeerCertificate: utils.CertificateChains,
 	}
 	client := &http.Client{

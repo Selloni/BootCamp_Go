@@ -4,7 +4,11 @@ package restapi
 
 import (
 	"crypto/tls"
+	"crypto/x509"
+	"github.com/lizrice/secure-connections/utils"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -53,6 +57,19 @@ func configureAPI(api *operations.CandyServerAPI) http.Handler {
 // The TLS configuration before HTTPS server starts.
 func configureTLS(tlsConfig *tls.Config) {
 	// Make all necessary changes to the TLS configuration here.
+	data, err := os.ReadFile("../../CA/minica.pem")
+	if err != nil {
+		log.Println(err)
+	}
+	cp, err := x509.SystemCertPool()
+	if err != nil {
+		log.Println(err)
+	}
+	cp.AppendCertsFromPEM(data)
+
+	tlsConfig.ClientCAs = cp
+	tlsConfig.GetCertificate = utils.CertReqFunc("../../server/cert.pem", "../ca/server/key.pem")
+	tlsConfig.VerifyPeerCertificate = utils.CertificateChains
 }
 
 // As soon as server is initialized but not run yet, this function will be called.
