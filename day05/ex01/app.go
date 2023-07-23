@@ -6,31 +6,36 @@ import (
 )
 
 func unrollGarland(node tree.TreeNode) {
+	buff := make(map[int][]tree.TmpType)
 
+	fl := tree.Height(&node)
+	i := int(fl)
+	if i%2 == 0 {
+		i++
+	}
+	takeTree(&node, &buff, i)
+	var sl []tree.TmpType
+	for ; i > 0; i-- {
+		sl = append(sl, buff[i]...)
+	}
+	fmt.Print(sl)
 }
 
-func printTree(node *tree.TreeNode, buff *[]bool) {
-	//i := 0
-	//fmt.Print(node.HasToy)
+func takeTree(node *tree.TreeNode, buff *map[int][]tree.TmpType, i int) {
 	if node == nil {
 		return
 	}
-	printTree(node.Left, buff)
-	printTree(node.Right, buff)
-	//if i%2 == 0 {
-	//
-	//} else {
-	//
-	//}
-	*buff = append(*buff, node.HasToy)
+	takeTree(node.Left, buff, i-1)
+	takeTree(node.Right, buff, i-1)
+
+	if i%2 != 0 {
+		(*buff)[i] = reverse((*buff)[i])
+	}
+	(*buff)[i] = append((*buff)[i], node.HasToy)
 }
 
-//func returnBool(node tree.TreeNode) bool  {
-//
-//}
-
-func reverse(sl []bool) []bool {
-	var buff []bool
+func reverse(sl []tree.TmpType) []tree.TmpType {
+	var buff []tree.TmpType
 	for l := len(sl) - 1; l > -1; l-- {
 		buff = append(buff, sl[l])
 	}
@@ -39,10 +44,10 @@ func reverse(sl []bool) []bool {
 
 func main() {
 	node := tree.TreeNode{
-		HasToy: false,
+		HasToy: true,
 	}
-	node.FillNode(true, true, true, false, false)
-	var buff []bool
-	printTree(&node, &buff)
-	fmt.Print(buff)
+	node.FillNode(true, true, true, false, false, true)
+	//node.FillNode(2, 3, 4, 5, 6, 7)
+	unrollGarland(node)
+
 }
