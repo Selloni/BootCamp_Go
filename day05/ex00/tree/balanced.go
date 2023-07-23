@@ -2,13 +2,15 @@ package tree
 
 import "math"
 
+type TmpType bool
+
 type TreeNode struct {
-	HasToy bool
+	HasToy TmpType
 	Left   *TreeNode
 	Right  *TreeNode
 }
 
-func (node *TreeNode) FillNode(toys ...bool) {
+func (node *TreeNode) FillNode(toys ...TmpType) {
 	for _, elem := range toys {
 		push(elem, node)
 	}
@@ -22,16 +24,16 @@ func countBool(node *TreeNode) int {
 	if node == nil {
 		return 0
 	}
-	count := 1
-	count += countBool(node.Left)
-	count += countBool(node.Right)
+	count := 0
+	count = countBool(node.Left)
+	count = countBool(node.Right)
 	if node.HasToy == false {
-		return 0
+		return count
 	}
-	return count
+	return count + 1
 }
 
-func push(elem bool, node *TreeNode) {
+func push(elem TmpType, node *TreeNode) {
 	if node.Left == nil {
 		node.Left = &TreeNode{
 			Left:   nil,
@@ -44,16 +46,16 @@ func push(elem bool, node *TreeNode) {
 			Right:  nil,
 			HasToy: elem,
 		}
-	} else if height(node.Left) <= height(node.Right) {
+	} else if Height(node.Left) <= Height(node.Right) {
 		push(elem, node.Left)
-	} else if height(node.Left) > height(node.Right) {
+	} else if Height(node.Left) > Height(node.Right) {
 		push(elem, node.Right)
 	}
 }
 
-func height(node *TreeNode) float64 {
+func Height(node *TreeNode) float64 {
 	if node == nil {
 		return 0
 	}
-	return math.Max(height(node.Left), height(node.Right)) + 1
+	return math.Max(Height(node.Left), Height(node.Right)) + 1
 }
