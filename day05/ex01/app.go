@@ -7,7 +7,6 @@ import (
 
 func unrollGarland(node tree.TreeNode) {
 	buff := make(map[int][]tree.TmpType)
-
 	fl := tree.Height(&node)
 	i := int(fl)
 	if i%2 == 0 {
@@ -27,7 +26,6 @@ func takeTree(node *tree.TreeNode, buff *map[int][]tree.TmpType, i int) {
 	}
 	takeTree(node.Left, buff, i-1)
 	takeTree(node.Right, buff, i-1)
-
 	if i%2 != 0 {
 		(*buff)[i] = reverse((*buff)[i])
 	}
