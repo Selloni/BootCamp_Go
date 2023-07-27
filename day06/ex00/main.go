@@ -35,6 +35,5 @@ func main() {
 			img.Set(x+50, y, color.RGBA{0, 80, 8, 88})
 		}
 	}
-
 	png.Encode(file, img)
 }
