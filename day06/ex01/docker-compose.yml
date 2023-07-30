@@ -3,8 +3,8 @@ services:
   postgres:
     image: postgres:13.3
     environment:
-      POSTGRES_DB: "habrdb"
-      POSTGRES_USER: "habrpguser"
-      POSTGRES_PASSWORD: "pgpwd4habr"
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "grandpat"
+      POSTGRES_PASSWORD: "grandpat"
     ports:
       - "5432:5432"

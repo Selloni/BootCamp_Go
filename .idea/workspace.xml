@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="af5ef5cf-ab6b-4661-aecf-f9d7294d240f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/day05/ex00/tree/balanced.go" beforeDir="false" afterPath="$PROJECT_DIR$/day05/ex00/tree/balanced.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/day05/ex01/__debug_bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/day05/ex03/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/day05/ex03/app.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,11 +53,11 @@
       <recent name="$PROJECT_DIR$/day01/ex01/dock" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/day05/ex00" />
+      <recent name="$PROJECT_DIR$/day05/ex02/cmd" />
       <recent name="$PROJECT_DIR$/day05" />
+      <recent name="$PROJECT_DIR$/day05/ex00" />
       <recent name="$PROJECT_DIR$/day05/ex00/tree" />
       <recent name="$PROJECT_DIR$/day05/ex00/cmd" />
-      <recent name="$PROJECT_DIR$/day05/ex00/test" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build day05/ex00/cmd">
@@ -152,5 +151,16 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/day05/ex03/app.go</url>
+          <line>28</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

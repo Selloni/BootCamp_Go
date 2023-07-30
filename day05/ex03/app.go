@@ -8,12 +8,12 @@ import (
 
 func main() {
 	h := present.PresentHeap{
-		present.Present{Value: 5, Size: 1},
+		present.Present{Value: 1, Size: 1},
 		present.Present{Value: 4, Size: 5},
-		present.Present{Value: 3, Size: 1},
-		present.Present{Value: 5, Size: 2},
+		present.Present{Value: 3, Size: 3},
+		present.Present{Value: 2, Size: 1},
 	}
-	fmt.Println(grabPresents(h, 4))
+	fmt.Println(grabPresents(h, 1))
 }
 
 func grabPresents(item present.PresentHeap, disk int) int {

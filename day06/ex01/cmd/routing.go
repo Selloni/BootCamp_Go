@@ -1,11 +1,11 @@
 package main
 
 import (
+	"fmt"
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 	"text/template"
-	"web/ex01/pkg/db/psql"
 )
 
 // w: обращнеие к страничке r: параметр для передачи
@@ -30,9 +30,9 @@ func savePost(w http.ResponseWriter, r *http.Request) {
 	pass := r.FormValue("pass")
 	text := r.FormValue("text")
 	if login == "admin" && pass == "admin" {
-		psql.OpenSql(text)
+		//psql.OpenSql(text)
+		fmt.Println(text)
 	}
-
 }
 
 func handleRequest() {
