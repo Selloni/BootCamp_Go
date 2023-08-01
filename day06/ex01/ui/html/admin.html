@@ -26,13 +26,20 @@
                 <a class="nav-link" href="/admin">Post</a>
             </nav>
         </div>
-        <form action="/post" method="post">
+        <form action="/post/" method="post">
             <input type="text" name="login" id="login" placeholder="login"
                    class="form-control"><br>
             <textarea name="pass" id = "pass" class="form-control" placeholder="password"></textarea><br>
             <textarea name="text" id = "text" class="form-control" placeholder="new test"></textarea><br>
             <button class = "btn btn-warning">POST</button>
         </form>
+<!--        <form id="loginForm" name="loginForm" action="/post" method="post" class="mt-4">-->
+<!--            <label for="login">Логин</label>-->
+<!--            <input type="login" id="login" name="login" autocomplete="on">-->
+<!--            <label for="pass">Пароль</label>-->
+<!--            <input type="pass" id="pass" name="pas" autocomplete="on">-->
+<!--            <button type="submit" name="submitBtn">Войти</button>-->
+<!--        </form>-->
     </header>
 </div>
 </body>

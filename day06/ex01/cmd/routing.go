@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"web/ex01/pkg/db/psql"
 
 	//_ "github.com/lib/pq"
@@ -17,7 +16,21 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("dont read home.html")
 	}
-	tmpl.Execute(w, nil)
+
+	cnf := psql.Config{
+		Name:     "grandpat",
+		Pass:     "grandpat",
+		Host:     "localhost",
+		Port:     "5432",
+		Database: "postgres",
+	}
+	psqlClient, err := psql.NewClient(context.Background(), cnf)
+	if err != nil {
+		log.Fatal("failed to connect to the database", err)
+	}
+	defer psqlClient.Close()
+	tmpl.Execute(w, psql.PostText(psqlClient))
+
 }
 
 func adminPanel(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +42,6 @@ func adminPanel(w http.ResponseWriter, r *http.Request) {
 }
 
 func savePost(w http.ResponseWriter, r *http.Request) {
-	///////////
 	cnf := psql.Config{
 		Name:     "grandpat",
 		Pass:     "grandpat",
@@ -50,7 +62,6 @@ func savePost(w http.ResponseWriter, r *http.Request) {
 	pass := r.Form.Get("pass")
 	text := r.Form.Get("text")
 	if login == "admin" && pass == "admin" {
-		fmt.Printf("ll %s, %s, %s", login, pass, text)
 		err = psql.InsertText(psqlClient, text)
 		if err != nil {
 			log.Fatal(err)
