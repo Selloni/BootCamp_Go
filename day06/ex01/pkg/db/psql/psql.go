@@ -11,7 +11,7 @@ import (
 )
 
 type Config struct {
-	name, pass, host, port, database string
+	Name, Pass, Host, Port, Database string
 }
 
 type Client interface {
@@ -28,8 +28,8 @@ func NewClient(ctx context.Context, con Config) (*pgxpool.Pool, error) {
 		pool *pgxpool.Pool
 		err  error
 	)
-	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", con.name, con.pass, con.host,
-		con.port, con.database)
+	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", con.Name, con.Pass, con.Host,
+		con.Port, con.Database)
 	err = DoWithTries(func() error {
 		ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 		defer cancel()

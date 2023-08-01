@@ -58,8 +58,8 @@ func (r repository) FindAll(ctx context.Context) (u []author.Author, err error) 
 //	panic("implement me")
 //}
 
-func NewRepository(client psql.Client) author.Repository {
-	return repository{
+func NewRepository(client psql.Client) *repository {
+	return &repository{
 		client: client,
 	}
 }
