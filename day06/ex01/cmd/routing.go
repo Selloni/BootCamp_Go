@@ -49,15 +49,14 @@ func savePost(w http.ResponseWriter, r *http.Request) {
 	login := r.Form.Get("login")
 	pass := r.Form.Get("pass")
 	text := r.Form.Get("text")
-	//if login == "admin" && pass == "admin" {
-	fmt.Printf("ll %s, %s, %s", login, pass, text)
-	err = psql.InsertText(psqlClient, "222")
-	if err != nil {
-		log.Fatal(err)
+	if login == "admin" && pass == "admin" {
+		fmt.Printf("ll %s, %s, %s", login, pass, text)
+		err = psql.InsertText(psqlClient, text)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
-
 	http.Redirect(w, r, "/", http.StatusSeeOther)
-	//}
 }
 
 func handleRequest() {
