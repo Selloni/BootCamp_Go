@@ -1,4 +1,4 @@
-create table public.post(
-    id serial primary key,
-    post varchar(100) not null
-);
+        create table public.post(
+            id serial primary key,
+            post text not null
+        );

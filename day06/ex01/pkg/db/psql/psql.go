@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"log"
+	"strconv"
 )
 
 type Post struct {
@@ -44,13 +45,14 @@ func InsertText(pool *pgxpool.Pool, text string) error {
 	return nil
 }
 
-func PostText(pool *pgxpool.Pool) (buff []Post) {
-	rows, err := pool.Query(context.Background(), "SELECT id, post FROM post")
+func PostText(pool *pgxpool.Pool, str uint) (buff []Post) {
+	min := strconv.Itoa(int(str))
+	max := strconv.Itoa(int(str + 2))
+	rows, err := pool.Query(context.Background(), fmt.Sprintf("SELECT id, post FROM post WHERE id BETWEEN %s AND %s", min, max))
 	if err != nil {
 		log.Fatal("fatal get text out BD :", err)
 	}
 	defer rows.Close()
-
 	for rows.Next() {
 		var tmp Post
 		err := rows.Scan(&tmp.Id, &tmp.Text)
@@ -63,19 +65,16 @@ func PostText(pool *pgxpool.Pool) (buff []Post) {
 }
 
 func OpenPagePost(pool *pgxpool.Pool, vars map[string]string) (pp Post) {
-	fmt.Println(vars["id"])
 	rows, err := pool.Query(context.Background(), fmt.Sprintf("SELECT id, post FROM post WHERE id = %s", vars["id"]))
-	//rows, err := pool.Query(context.Background(), fmt.Sprintf("SELECT id, post FROM post WHERE id = 2"))
 	if err != nil {
 		log.Fatal("fatal get post ", err)
 	}
-	fmt.Println(rows)
-	//defer rows.Close()
-	//for rows.Next() {
-	//	err := rows.Scan(&pp.Id, &pp.Text)
-	//	if err != nil {
-	//		log.Fatal(err)
-	//	}
-	//}
+	defer rows.Close()
+	for rows.Next() {
+		err := rows.Scan(&pp.Id, &pp.Text)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 	return
 }
