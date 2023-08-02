@@ -89,11 +89,13 @@ func showPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func backPage(w http.ResponseWriter, r *http.Request) {
+	//flagPage = flagPage - 2
 	flagPage--
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func forwardPage(w http.ResponseWriter, r *http.Request) {
+	//flagPage = flagPage + 2
 	flagPage++
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
