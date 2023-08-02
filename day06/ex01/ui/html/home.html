@@ -49,7 +49,23 @@
       </nav>
     </div>
   </header>
-    {{ . }}
+
+            {{ range . }}
+            <dvi class = "alert alert-info">
+                <p>
+                    <a href="/post/{{.Id}}" class="btn btn-info">{{.Text}}</a>
+                </p>
+            </dvi>
+            {{else}}
+
+            {{end}}
+
+    <footer class="mt-auto text-white-50">
+        <p>...</p>
+    </footer>
+
+
+
 </div>
   </body>
 </html>

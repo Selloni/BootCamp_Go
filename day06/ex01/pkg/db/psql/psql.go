@@ -47,20 +47,35 @@ func InsertText(pool *pgxpool.Pool, text string) error {
 func PostText(pool *pgxpool.Pool) (buff []Post) {
 	rows, err := pool.Query(context.Background(), "SELECT id, post FROM post")
 	if err != nil {
-		log.Fatal("fatal get text out BD", err)
+		log.Fatal("fatal get text out BD :", err)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		//var id int
-		//var text string
 		var tmp Post
 		err := rows.Scan(&tmp.Id, &tmp.Text)
 		if err != nil {
 			log.Fatal(err)
 		}
 		buff = append(buff, tmp)
-		fmt.Println(tmp.Text, tmp.Id)
 	}
+	return
+}
+
+func OpenPagePost(pool *pgxpool.Pool, vars map[string]string) (pp Post) {
+	fmt.Println(vars["id"])
+	rows, err := pool.Query(context.Background(), fmt.Sprintf("SELECT id, post FROM post WHERE id = %s", vars["id"]))
+	//rows, err := pool.Query(context.Background(), fmt.Sprintf("SELECT id, post FROM post WHERE id = 2"))
+	if err != nil {
+		log.Fatal("fatal get post ", err)
+	}
+	fmt.Println(rows)
+	//defer rows.Close()
+	//for rows.Next() {
+	//	err := rows.Scan(&pp.Id, &pp.Text)
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
+	//}
 	return
 }
