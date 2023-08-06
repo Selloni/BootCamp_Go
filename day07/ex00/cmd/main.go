@@ -1,7 +1,7 @@
 package main
 
 import (
-	"day07/app"
+	"day07/ex00/app"
 	"fmt"
 	"sort"
 )
