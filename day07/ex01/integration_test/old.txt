@@ -1,0 +1,2 @@
+PASS
+ok  	day07/ex01/integration_test	0.005s

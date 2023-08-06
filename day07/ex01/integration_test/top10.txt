@@ -1,0 +1,13 @@
+Showing nodes accounting for 20ms, 100% of 20ms total
+Showing top 10 nodes out of 14
+      flat  flat%   sum%        cum   cum%
+      10ms 50.00% 50.00%       10ms 50.00%  runtime.kevent
+      10ms 50.00%   100%       10ms 50.00%  runtime.pthread_cond_wait
+         0     0%   100%       10ms 50.00%  runtime.findRunnable
+         0     0%   100%       10ms 50.00%  runtime.mPark (inline)
+         0     0%   100%       10ms 50.00%  runtime.mcall
+         0     0%   100%       10ms 50.00%  runtime.netpoll
+         0     0%   100%       10ms 50.00%  runtime.notesleep
+         0     0%   100%       10ms 50.00%  runtime.park_m
+         0     0%   100%       10ms 50.00%  runtime.schedule
+         0     0%   100%       10ms 50.00%  runtime.semasleep
