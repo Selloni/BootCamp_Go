@@ -33,13 +33,9 @@ type Item struct {
 }
 
 func (x *Xake) ReadFile(data []byte) {
-	fmt.Println(string(data))
-
 	if err := xml.Unmarshal(data, &x); err != nil {
 		errors.New("not parsing")
 	}
-	fmt.Println(x.Cake)
-	fmt.Println(x)
 }
 
 func (x *Xake) Write() []byte {

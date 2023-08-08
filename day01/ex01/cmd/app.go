@@ -1,9 +1,14 @@
 package main
 
 import (
+	"log"
 	"root/ex01/interal"
 )
 
 func main() {
-	_ = interal.Start()
+	err := interal.Start()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }

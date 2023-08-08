@@ -80,7 +80,7 @@ func ParsingXml(data []byte, x *JX.Xake) {
 func CakeAdd(old recipes, new recipes) {
 	for i := 0; i < len(new.Cake); i++ {
 		if new.Cake[i].Name != old.Cake[i].Name {
-			fmt.Printf("ADDED cake \\\"%s\\\"\n", new.Cake[i].Name)
+			fmt.Printf("ADDED cake \"%s\"\n", new.Cake[i].Name)
 		}
 	}
 }
@@ -88,7 +88,7 @@ func CakeAdd(old recipes, new recipes) {
 func CakeRemove(old recipes, new recipes) {
 	for i := 0; i < len(old.Cake); i++ {
 		if old.Cake[i].Name != new.Cake[i].Name {
-			fmt.Printf("REMOVED cake \\\"%s\\\"\n", old.Cake[i].Name)
+			fmt.Printf("REMOVED cake \"%s\"\n", old.Cake[i].Name)
 		}
 	}
 }
@@ -98,8 +98,8 @@ func IngredientAndTime(old recipes, new recipes) {
 		for j := 0; j < len(new.Cake); j++ {
 			if old.Cake[i].Name == new.Cake[j].Name {
 				if old.Cake[i].Time != new.Cake[j].Time {
-					fmt.Printf("CHANGED cooking time for cake \\\"Red Velvet Strawberry Cake\\\""+
-						" - \\\"%s\\\" instead of \\\"%s\\\"\n",
+					fmt.Printf("CHANGED cooking time for cake \"Red Velvet Strawberry Cake\""+
+						" - \"%s\" instead of \"%s\"\n",
 						old.Cake[i].Time, new.Cake[j].Time)
 				}
 				CheckIngredient(old.Cake[i].Ingredients, new.Cake[j].Ingredients, old.Cake[i].Name, new.Cake[j].Name)
@@ -118,28 +118,28 @@ func CheckIngredient(old []ingredients, new []ingredients, oldName string, newNa
 		newV[new[i].IngredientName] = map[string]string{new[i].IngredientCount: new[i].IngredientUnit}
 		_, addCake := oldV[new[i].IngredientName]
 		if !addCake {
-			fmt.Printf("ADDED ingredient \\\"%s\\\" for cake  \\\"%s\\\"\n", new[i].IngredientName, newName)
+			fmt.Printf("ADDED ingredient \"%s\" for cake  \"%s\"\n", new[i].IngredientName, newName)
 		}
 	}
 	for i := 0; i < len(old); i++ {
 		newCoUnt, haveCake := newV[old[i].IngredientName]
 		if !haveCake {
-			fmt.Printf("REMOVED ingredient \\\"%s\\\" for cake  \\\"%s\\\"\n", old[i].IngredientName, oldName)
+			fmt.Printf("REMOVED ingredient \"%s\" for cake  \"%s\"\n", old[i].IngredientName, oldName)
 		} else {
 			oldCoUnt, _ := oldV[old[i].IngredientName]
 			for oldVolume, oldUnit := range oldCoUnt { //// просто хотел достать ключ и значение
 				for newVolume, newUnit := range newCoUnt {
 					if newUnit == "" && oldUnit != "" {
-						fmt.Printf("REMOVED unit \\\"%s\\\" for ingredient \\\"%s\\\" "+
-							"for cake  \\\"%s\\\"\n", oldUnit, old[i].IngredientName, oldName)
+						fmt.Printf("REMOVED unit \"%s\" for ingredient \"%s\" "+
+							"for cake  \"%s\"\n", oldUnit, old[i].IngredientName, oldName)
 					} else if oldUnit != newUnit {
-						fmt.Printf("CHANGED unit for ingredient \\\"%s\\\" for cake \\\"%s\\\" "+
-							"- \\\"%s\\\" instead of \\\"%s\\\"\n", old[i].IngredientName,
+						fmt.Printf("CHANGED unit for ingredient \"%s\" for cake \"%s\" "+
+							"- \"%s\" instead of \"%s\"\n", old[i].IngredientName,
 							oldName, newUnit, oldUnit)
 					}
 					if oldVolume != newVolume {
-						fmt.Printf("CHANGED unit count for ingredient \\\"%s\\\" for cake"+
-							"  \\\"%s\\\" - \\\"%s\\\" instead of \\\"%s\\\"\n", old[i].IngredientName, oldName,
+						fmt.Printf("CHANGED unit count for ingredient \"%s\" for cake"+
+							"  \"%s\" - \"%s\" instead of \"%s\"\n", old[i].IngredientName, oldName,
 							newVolume, oldVolume)
 					}
 				}
