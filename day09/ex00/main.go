@@ -16,6 +16,7 @@ func sleepSort(x []int) (sorti []int) {
 	for _, i := range x {
 		go forSleep(i, ch)
 	}
+
 	for i := 0; i < len(x); i++ {
 		sorti = append(sorti, <-ch)
 	}
@@ -23,8 +24,6 @@ func sleepSort(x []int) (sorti []int) {
 }
 
 func forSleep(x int, ch chan int) {
-	for i := 0; i < x; i++ {
-		time.Sleep(1 * time.Second)
-	}
+	time.Sleep(time.Duration(x) * time.Second)
 	ch <- x
 }
