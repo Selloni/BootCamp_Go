@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	var ch chan string
+	ch = make(chan string)
 
 	urls := []string{
 		"https://example.com",
@@ -18,21 +18,22 @@ func main() {
 	}
 
 	for _, url := range urls {
-		resp, err := crawlWeb(url)
+		ch <- url
+		err := crawlWeb(ch)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(resp)
+		fmt.Println(<-ch)
 	}
 }
 
-func crawlWeb(url string) (string, error) {
+func crawlWeb(chUrl chan string) error {
 	var client http.Client
-	var bodyString string
-
+	//var bodyString string
+	url := <-chUrl
 	resp, err := client.Get(url)
 	if err != nil {
-		return "", err
+		return err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode == http.StatusOK {
@@ -40,7 +41,9 @@ func crawlWeb(url string) (string, error) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		bodyString = string(bodyBytes)
+		chUrl <- string(bodyBytes)
+	} else {
+		<-chUrl
 	}
-	return bodyString, nil
+	return nil
 }
