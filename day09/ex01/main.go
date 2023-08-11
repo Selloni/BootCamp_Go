@@ -1,14 +1,19 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
-	resp, err := crawlWeb("https://journal.tinkoff.ru/")
+	fmt.Println("keep up to 8 urls")
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	resp, err := crawlWeb(scanner.Text())
 	if err != nil {
 		log.Fatal(err)
 	}
