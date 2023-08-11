@@ -1,28 +1,35 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
-	"os"
 )
 
 func main() {
-	fmt.Println("keep up to 8 urls")
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Scan()
-	resp, err := crawlWeb(scanner.Text())
-	if err != nil {
-		log.Fatal(err)
+	var ch chan string
+
+	urls := []string{
+		"https://example.com",
+		"https://google.com",
+		"https://github.com",
+		"https://ya.ru/?utm_referrer=https%3A%2F%2Fwww.google.com%2F",
 	}
-	fmt.Println(resp)
+
+	for _, url := range urls {
+		resp, err := crawlWeb(url)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(resp)
+	}
 }
 
 func crawlWeb(url string) (string, error) {
 	var client http.Client
 	var bodyString string
+
 	resp, err := client.Get(url)
 	if err != nil {
 		return "", err
