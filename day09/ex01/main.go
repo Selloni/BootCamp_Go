@@ -8,32 +8,24 @@ import (
 )
 
 func main() {
-	ch = make(chan string)
-
+	ch := make(chan string)
 	urls := []string{
 		"https://example.com",
 		"https://google.com",
 		"https://github.com",
 		"https://ya.ru/?utm_referrer=https%3A%2F%2Fwww.google.com%2F",
 	}
-
 	for _, url := range urls {
-		ch <- url
-		err := crawlWeb(ch)
-		if err != nil {
-			log.Fatal(err)
-		}
+		go crawlWeb(url, ch)
 		fmt.Println(<-ch)
 	}
 }
 
-func crawlWeb(chUrl chan string) error {
+func crawlWeb(url string, ch chan string) {
 	var client http.Client
-	//var bodyString string
-	url := <-chUrl
 	resp, err := client.Get(url)
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode == http.StatusOK {
@@ -41,9 +33,8 @@ func crawlWeb(chUrl chan string) error {
 		if err != nil {
 			log.Fatal(err)
 		}
-		chUrl <- string(bodyBytes)
+		ch <- string(bodyBytes)
 	} else {
-		<-chUrl
+		<-ch
 	}
-	return nil
 }
