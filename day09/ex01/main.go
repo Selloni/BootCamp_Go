@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"log"
@@ -22,13 +23,16 @@ func main() {
 
 	signal.Notify(signalStop, os.Interrupt, os.Kill, syscall.SIGTERM)
 	go func() {
-		for {
-			<-signalStop
-			signal.Stop(signalStop)
-			log.Println("Signal type : ")
-			//_, cancel := context.Canceled
-			os.Exit(0)
-		}
+		//for {
+		<-signalStop
+		//signal.Stop(signalStop)
+		_, cancel := context.WithCancel(context.Background())
+		//_, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+		defer cancel()
+		fmt.Printf("\nThe process has closed\n")
+		//_, cancel := context.Canceled
+		os.Exit(0)
+		//}
 	}()
 
 	for _, url := range urls {
