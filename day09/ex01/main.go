@@ -6,12 +6,21 @@ import (
 	"io"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
+	"runtime/pprof"
 	"syscall"
 )
 
 func main() {
+	file, err := os.Create("heap.profile")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	pprof.Lookup("heap").WriteTo(file, 0)
+	//http.ListenAndServe("localhost:8080", nil)
 	ch := make(chan string)
 	signalStop := make(chan os.Signal, 1)
 	urls := []string{
@@ -38,15 +47,6 @@ func main() {
 	for _, url := range urls {
 		go crawlWeb(url, ch)
 		fmt.Println(<-ch)
-	}
-}
-
-func Signal(ch chan os.Signal) {
-	for {
-		<-ch
-		signal.Stop(ch)
-		//_, cancel := context.Canceled
-		os.Exit(0)
 	}
 }
 
