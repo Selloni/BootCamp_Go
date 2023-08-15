@@ -1,12 +1,21 @@
 package main
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 func main() {
-	out := multiplex()
+	one := generator(17)
+	two := generator(28)
+	three := generator(13)
+	out := multiplex(one, two, three)
+	for i := range out {
+		fmt.Printf("%d ", i)
+	}
 }
 
-func multiplex(ch ...chan interface{}) chan interface{} {
+func multiplex(ch ...<-chan interface{}) <-chan interface{} {
 	var wg sync.WaitGroup
 	out := make(chan interface{})
 
@@ -27,4 +36,15 @@ func multiplex(ch ...chan interface{}) chan interface{} {
 		close(out)
 	}()
 	return out
+}
+
+func generator(data any) <-chan any {
+	ch := make(chan any)
+	go func() {
+		for i := 0; i < 3; i++ {
+			ch <- data
+		}
+		close(ch)
+	}()
+	return ch
 }
