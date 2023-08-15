@@ -14,12 +14,7 @@ import (
 )
 
 func main() {
-	file, err := os.Create("heap.profile")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-	pprof.Lookup("heap").WriteTo(file, 0)
+	forProf()
 	//http.ListenAndServe("localhost:8080", nil)
 	ch := make(chan string)
 	signalStop := make(chan os.Signal, 1)
@@ -66,4 +61,13 @@ func crawlWeb(url string, ch chan string) {
 	} else {
 		<-ch
 	}
+}
+
+func forProf() {
+	file, err := os.Create("heap.profile")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	pprof.Lookup("heap").WriteTo(file, 0)
 }
