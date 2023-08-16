@@ -17,6 +17,21 @@ type Config struct {
 	Name, Pass, Host, Port, Database string
 }
 
+func ConnectPsql() (*pgxpool.Pool, error) {
+	cnf := Config{
+		Name:     "grandpat",
+		Pass:     "grandpat",
+		Host:     "localhost",
+		Port:     "5432",
+		Database: "postgres",
+	}
+	psqlClient, err := NewClient(context.Background(), cnf)
+	if err != nil {
+		return nil, err
+	}
+	return psqlClient, nil
+}
+
 func NewClient(ctx context.Context, con Config) (*pgxpool.Pool, error) {
 	var pool *pgxpool.Pool
 	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", con.Name, con.Pass, con.Host,

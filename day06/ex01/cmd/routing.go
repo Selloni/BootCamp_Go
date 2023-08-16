@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -13,18 +12,11 @@ var flagPage uint = 1
 
 // w: обращнеие к страничке r: параметр для передачи
 func homePage(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("../ui/html/home.html")
+	tmpl, err := template.ParseFiles("ui/html/home.html")
 	if err != nil {
-		log.Fatal("dont read home.html")
+		log.Fatal("dont read home.html ", err)
 	}
-	cnf := psql.Config{
-		Name:     "grandpat",
-		Pass:     "grandpat",
-		Host:     "localhost",
-		Port:     "5432",
-		Database: "postgres",
-	}
-	psqlClient, err := psql.NewClient(context.Background(), cnf)
+	psqlClient, err := psql.ConnectPsql()
 	if err != nil {
 		log.Fatal("failed to connect to the database", err)
 	}
@@ -33,22 +25,15 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func adminPanel(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("../ui/html/admin.html")
+	tmpl, err := template.ParseFiles("ui/html/admin.html")
 	if err != nil {
-		log.Fatal("dont read admin.html")
+		log.Fatal("dont read admin.html ", err)
 	}
 	tmpl.Execute(w, nil)
 }
 
 func savePost(w http.ResponseWriter, r *http.Request) {
-	cnf := psql.Config{
-		Name:     "grandpat",
-		Pass:     "grandpat",
-		Host:     "localhost",
-		Port:     "5432",
-		Database: "postgres",
-	}
-	psqlClient, err := psql.NewClient(context.Background(), cnf)
+	psqlClient, err := psql.ConnectPsql()
 	if err != nil {
 		log.Fatal("failed to connect to the database", err)
 	}
@@ -70,16 +55,9 @@ func savePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func showPost(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("../ui/html/articl.html")
+	tmpl, err := template.ParseFiles("ui/html/articl.html")
 	vars := mux.Vars(r)
-	cnf := psql.Config{
-		Name:     "grandpat",
-		Pass:     "grandpat",
-		Host:     "localhost",
-		Port:     "5432",
-		Database: "postgres",
-	}
-	psqlClient, err := psql.NewClient(context.Background(), cnf)
+	psqlClient, err := psql.ConnectPsql()
 	if err != nil {
 		log.Fatal("failed to connect to the database", err)
 	}
@@ -89,13 +67,11 @@ func showPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func backPage(w http.ResponseWriter, r *http.Request) {
-	//flagPage = flagPage - 2
 	flagPage--
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func forwardPage(w http.ResponseWriter, r *http.Request) {
-	//flagPage = flagPage + 2
 	flagPage++
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

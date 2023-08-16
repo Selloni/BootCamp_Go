@@ -3,6 +3,6 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("start:8888port")
+	fmt.Println("localhost:8888")
 	handleRequest()
 }
