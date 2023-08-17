@@ -41,7 +41,7 @@ func multiplex(ch ...<-chan interface{}) <-chan interface{} {
 func generator(data any) <-chan any {
 	ch := make(chan any)
 	go func() {
-		for i := 0; i < 3; i++ {
+		for i := 0; i < 4; i++ {
 			ch <- data
 		}
 		close(ch)
