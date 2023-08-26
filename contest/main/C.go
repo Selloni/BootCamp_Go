@@ -4,8 +4,18 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 )
+
+type pair struct {
+	num int
+	lvl int
+}
+
+type SortPair []pair
+
+func (a SortPair) Len() int           { return len(a) }
+func (a SortPair) Less(i, j int) bool { return a[i].lvl < a[j].lvl }
+func (a SortPair) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 func main() {
 	read := bufio.NewReader(os.Stdin)
@@ -15,37 +25,15 @@ func main() {
 	var (
 		countLine int
 		countNum  int
-		//buff      []int
-		lvl int
+		lvl       int
+		//tmp       pair
+		pp []pair
 	)
 	fmt.Fscan(read, &countLine)
 	for i := 0; i < countLine; i++ {
-		var tmpBuff []int
-		list := make(map[int]int)
 		fmt.Fscan(read, &countNum)
 		for j := 1; j < countNum+1; j++ {
-			fmt.Fscan(read, &lvl)
-			list[j] = lvl
-		}
-		for key := range list {
-			tmpBuff = append(tmpBuff, key)
-		}
 
-		sort.Ints(tmpBuff)
-		fmt.Println(tmpBuff)
-		ll := len(list)
-		for m := 1; m < ll; m++ {
-			fmt.Fprintln(write, findKey(&list, m), findKey(&list, m+1))
 		}
 	}
-}
-
-func findKey(list *map[int]int, val int) int {
-	for key, value := range *list {
-		if value == val || value == val+1 || value == val-1 {
-			delete(*list, key)
-			return key
-		}
-	}
-	return 0
 }
