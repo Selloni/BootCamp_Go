@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 )
 
 func main() {
@@ -15,29 +16,36 @@ func main() {
 		countLine int
 		countNum  int
 		//buff      []int
-		tmpBuff []int
-		lvl     int
+		lvl int
 	)
 	fmt.Fscan(read, &countLine)
 	for i := 0; i < countLine; i++ {
+		var tmpBuff []int
 		list := make(map[int]int)
 		fmt.Fscan(read, &countNum)
-		for j := 0; j < countNum; j++ {
+		for j := 1; j < countNum+1; j++ {
 			fmt.Fscan(read, &lvl)
 			list[j] = lvl
 		}
+		for key := range list {
+			tmpBuff = append(tmpBuff, key)
+		}
 
-		//for i, j := range buff {
-		//	tmp =
-		//	//tmpBuff = append(tmpBuff, i)
-		//}
-		fmt.Fprintln(write, tmpBuff)
+		sort.Ints(tmpBuff)
+		fmt.Println(tmpBuff)
+		ll := len(list)
+		for m := 1; m < ll; m++ {
+			fmt.Fprintln(write, findKey(&list, m), findKey(&list, m+1))
+		}
 	}
 }
 
-func findPair(buff int, tmp int, write *bufio.Writer) {
-	if tmp == buff {
-		fmt.Fprintln(write, tmp, buff)
+func findKey(list *map[int]int, val int) int {
+	for key, value := range *list {
+		if value == val || value == val+1 || value == val-1 {
+			delete(*list, key)
+			return key
+		}
 	}
-
+	return 0
 }
